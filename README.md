@@ -1,12 +1,12 @@
-<h1><bold> Emulador-PH1 </bold> </h1>
+<h1><strong> Emulador-PH1 </strong> </h1>
 <h2> Trabalho de Arquitetura e Organização de Computadores I, ministrada pelo Prof. Me. Marcos Jose Brusso, na Universidade de Passo Fundo - UPF </h2>
-<h5><bold>Nome:</bold> Pedro Marcelo Roso Manica</h5> <h5><bold>Matrícula:</bold> 173722</h5>
+<h5><strong>Nome:</strong> Pedro Marcelo Roso Manica</h5> <h5><strong>Matrícula:</strong> 173722</h5>
 <ul>
   
 <li><h3>Entrada</h3></li>
 <p>A entrada é composta por um arquivo-texto(.txt) contendo uma série de linhas. Cada linha correspondente ao conteúdo inicial de um endereço da memória do PH1 e é representada por um endereço e um valor (ambos em hexadecimal) separados por um espaço em branco. Os valores iniciais de todos os endereços de memórias não informados, assim como de todos os registradores serão 00 (zero). O nome do arquivo de entrada não é fixo dentro do programa, mas informado pelo usuário em tempo de execução.</p>
 <ul>
-  <li><h4><bold>Exemplo de entrada (arquivo "entrada01.txt")</bold></h4></li>
+  <li><h4><strong>Exemplo de entrada (arquivo "entrada01.txt")</strong></h4></li>
              00 10<br>
              01 81<br>
              02 30<br>
@@ -160,7 +160,7 @@
          </ul>
    </ul>
 <li><h3>Exemplo de saída para a "entrada01.txt"</h3></li>
-<p>
+<p><em>
   Input file: entrada01.txt<br>
 
   LDR 81 ; AC <- MEM[81]<br>
@@ -176,6 +176,7 @@
 
   Memory:<br>
   80 07<br>
+</em>
 </p>
 
 </ul>
