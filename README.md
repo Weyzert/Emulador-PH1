@@ -133,4 +133,31 @@
 </ul>
 <li><h3>Saída</h3></li>
 <p>A lei de saída do programa contem exatamente os seguintes parametros:</p>
+   <ul>
+     <li>Uma linha com "Input file: " seguido do nome do arquivo de entrada</li>
+     <li>Uma linha em branco</li>
+     <li>Para cada instrução  executada* uma nova linha contendo:</li>
+        <ul>
+          <li>O memônico da instrução em letras maiúsculas</li>
+          <li>Um espaço em branco</li>
+          <li>O operando (se houver) em hexadecimal, com dois dígitos</li>
+          <li>" ; "</li>
+          <li>A descrição da instrução em RTL</li>
+        </ul>
+      <li>Uma linha em branco</li>
+      <li>N " instructions executed", onde N é o número total de instruções executadas</li>
+      <li>Uma linha em branco</li>
+      <li>Uma linha contendo "Registers:"</li>
+      <li>"AC: " seguido do valor final do registrador AC, em hexadecimal, com dois dígitos</li>
+      <li>"PC: " seguido do valor final do registrador PC, em hexadecimal, com dois dígitos</li>
+      <li>Uma linha em branco</li>
+      <li>Uma linha contendo "Memory:"</li>
+      <li>Para cada endereço de memória que tenha sido modificado (escrito) durante a execução do programa, uma linha contendo:</li>
+         <ul>
+           <li>O endereço de memória, em hexadecimal, com dois dígitos</li>
+           <li>Um espaço em branco</li>
+           <li>O valor contido naquele endereço ao final da execução, em hexadecimal, com dois dígitos</li>
+         </ul>
+   </ul>
+
 </ul>
