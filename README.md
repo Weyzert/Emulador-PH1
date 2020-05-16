@@ -39,8 +39,99 @@
                  ● Comentário: Armazena na memória o valor do AC<br> 
                  ● Tipo: Transferência de dados<br>                 
                </li>  
-             
-             
+               <li><h5> Instrução ADD end </h5>
+                 ● OpCode: 0011<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC +  MEM[ end ]<br>   
+                 ● Comentário: Soma<br>  
+                 ● Tipo: Operação aritmética<br> 
+               </li>
+               <li><h5> Instrução SUB end </h5>
+                 ● OpCode: 0100<br>  
+                 ● Operando? Sim<br>  
+                 ● Operação (RTL): AC <- AC -  MEM[ end ]<br>   
+                 ● Comentário: Subtração<br>  
+                 ● Tipo: Operação aritmétic<br>
+               </li>
+               <li><h5> Instrução MUL end </h5>
+                 ● OpCode: 0101<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC *  MEM[ end ]<br>  
+                 ● Comentário: Multiplicação<br> 
+                 ● Tipo: Operação aritmética<br>
+               </li> 
+               <li><h5> Instrução DIV end </h5>
+                 ● OpCode: 0110<br>
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC /  MEM[ end ]<br>  
+                 ● Comentário: Divisão<br> 
+                 ● Tipo: Operação aritmética<br>
+               </li>
+               <li><h5> Instrução NOT </h5>
+                 ● OpCode: 0111<br>
+                 ● Operando? Não<br> 
+                 ● Operação (RTL): AC <- !AC<br> 
+                 ● Comentário: “Não” lógico<br> 
+                 ● Tipo: Operação lógica bit-a-bit<br>                 
+               </li>
+               <li><h5> Instrução AND end </h5>
+                 ● OpCode: 1000<br>
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC & MEM[ end ]<br> 
+                 ● Comentário: “E” lógico<br> 
+                 ● Tipo: Operação lógica bit-a-bit<br>
+               </li>
+               <li><h5> Instrução OR end </h5>
+                 ● OpCode: 1001<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC | MEM[ end ]<br> 
+                 ● Comentário: “OU” lógico<br> 
+                 ● Tipo: Operação lógica bit-a-bit<br>
+               </li>
+               <li><h5> Instrução XOR end </h5>
+                 ● OpCode: 1010<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): AC <- AC ^ MEM[ end ]<br> 
+                 ● Comentário: “OU exclusivo” lógico<br> 
+                 ● Tipo: Operação lógica bit-a-bit<br>
+               </li>
+               <li><h5> Instrução JMP end </h5>
+                 ● OpCode: 1011<br>  
+                 ● Operando? Sim<br>  
+                 ● Operação (RTL): PC <- end<br>  
+                 ● Comentário: Desvio incondicional<br>  
+                 ● Tipo: Desvio (transferência de controle)<br> 
+               </li>
+               <li><h5> Instrução JEQ end </h5>
+                 ● OpCode: 1100<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): Se(AC==0) PC <- end<br> 
+                 ● Comentário: Desvio condicional, caso AC seja igual a zero<br> 
+                 ● Tipo: Desvio (transferência de controle)<br>
+               </li>
+               <li><h5> Instrução JG end </h5>
+                 ● OpCode: 1101<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): Se(AC>0) PC <- end<br> 
+                 ● Comentário: Desvio condicional, caso AC seja maior que zero<br> 
+                 ● Tipo: Desvio (transferência de controle)<br>
+               </li>
+               <li><h5> Instrução JL end </h5>
+                 ● OpCode: 1110<br> 
+                 ● Operando? Sim<br> 
+                 ● Operação (RTL): Se(AC<0) PC <- end<br> 
+                 ● Comentário: Desvio condicional, caso AC seja menor que zero<br> 
+                 ● Tipo: Desvio (transferência de controle)<br>
+               </li>
+               <li><h5> Instrução HLT </h5>
+                 ● OpCode: 1111<br> 
+                 ● Operando? Não<br> 
+                 ● Comentário: Término da execução<br> 
+                 ● Tipo: Operações Diversas<br>
+               </li>
+
+
+
 </ul>  
   
 </ul>
