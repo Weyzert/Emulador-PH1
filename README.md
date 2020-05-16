@@ -19,111 +19,111 @@
              82 02<br>
   <li><h4>Comandos validos para a entrada</h4></li>
              <ul>
-               <li><h5> Instrução NOP </h5>
+               <li><h5> Instrução NOP (00) </h5>
                  ● OpCode: 0000<br>
                  ● Operando? Não<br>
                  ● Comentário: Não executa nenhuma operação<br>
                  ● Tipo: Operações Diversa<br>
                </li>
-               <li><h5> Instrução LDR end </h5>
+               <li><h5> Instrução LDR end (01) </h5>
                  ● OpCode: 0001<br>
                  ● Operando? Sim<br>
                  ● Operação (RTL): AC <-  MEM[ end ]<br>
                  ● Comentário: Carrega valor da memória para AC<br>
                  ● Tipo: Transferência de dados<br>
                </li>
-               <li><h5> Instrução STR end </h5>
+               <li><h5> Instrução STR end (02) </h5>
                  ● OpCode: 0010<br>
                  ● Operando? Sim<br>
                  ● Operação (RTL): MEM[ end ] <-  AC<br>
                  ● Comentário: Armazena na memória o valor do AC<br> 
                  ● Tipo: Transferência de dados<br>                 
                </li>  
-               <li><h5> Instrução ADD end </h5>
+               <li><h5> Instrução ADD end (03) </h5>
                  ● OpCode: 0011<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC +  MEM[ end ]<br>   
                  ● Comentário: Soma<br>  
                  ● Tipo: Operação aritmética<br> 
                </li>
-               <li><h5> Instrução SUB end </h5>
+               <li><h5> Instrução SUB end (04) </h5>
                  ● OpCode: 0100<br>  
                  ● Operando? Sim<br>  
                  ● Operação (RTL): AC <- AC -  MEM[ end ]<br>   
                  ● Comentário: Subtração<br>  
                  ● Tipo: Operação aritmétic<br>
                </li>
-               <li><h5> Instrução MUL end </h5>
+               <li><h5> Instrução MUL end (05) </h5>
                  ● OpCode: 0101<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC *  MEM[ end ]<br>  
                  ● Comentário: Multiplicação<br> 
                  ● Tipo: Operação aritmética<br>
                </li> 
-               <li><h5> Instrução DIV end </h5>
+               <li><h5> Instrução DIV end (06) </h5>
                  ● OpCode: 0110<br>
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC /  MEM[ end ]<br>  
                  ● Comentário: Divisão<br> 
                  ● Tipo: Operação aritmética<br>
                </li>
-               <li><h5> Instrução NOT </h5>
+               <li><h5> Instrução NOT (07) </h5>
                  ● OpCode: 0111<br>
                  ● Operando? Não<br> 
                  ● Operação (RTL): AC <- !AC<br> 
                  ● Comentário: “Não” lógico<br> 
                  ● Tipo: Operação lógica bit-a-bit<br>                 
                </li>
-               <li><h5> Instrução AND end </h5>
+               <li><h5> Instrução AND end (08) </h5>
                  ● OpCode: 1000<br>
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC & MEM[ end ]<br> 
                  ● Comentário: “E” lógico<br> 
                  ● Tipo: Operação lógica bit-a-bit<br>
                </li>
-               <li><h5> Instrução OR end </h5>
+               <li><h5> Instrução OR end (09) </h5>
                  ● OpCode: 1001<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC | MEM[ end ]<br> 
                  ● Comentário: “OU” lógico<br> 
                  ● Tipo: Operação lógica bit-a-bit<br>
                </li>
-               <li><h5> Instrução XOR end </h5>
+               <li><h5> Instrução XOR end (0A) </h5>
                  ● OpCode: 1010<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): AC <- AC ^ MEM[ end ]<br> 
                  ● Comentário: “OU exclusivo” lógico<br> 
                  ● Tipo: Operação lógica bit-a-bit<br>
                </li>
-               <li><h5> Instrução JMP end </h5>
+               <li><h5> Instrução JMP end (0B) </h5>
                  ● OpCode: 1011<br>  
                  ● Operando? Sim<br>  
                  ● Operação (RTL): PC <- end<br>  
                  ● Comentário: Desvio incondicional<br>  
                  ● Tipo: Desvio (transferência de controle)<br> 
                </li>
-               <li><h5> Instrução JEQ end </h5>
+               <li><h5> Instrução JEQ end (0C) </h5>
                  ● OpCode: 1100<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): Se(AC==0) PC <- end<br> 
                  ● Comentário: Desvio condicional, caso AC seja igual a zero<br> 
                  ● Tipo: Desvio (transferência de controle)<br>
                </li>
-               <li><h5> Instrução JG end </h5>
+               <li><h5> Instrução JG end (0D) </h5>
                  ● OpCode: 1101<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): Se(AC>0) PC <- end<br> 
                  ● Comentário: Desvio condicional, caso AC seja maior que zero<br> 
                  ● Tipo: Desvio (transferência de controle)<br>
                </li>
-               <li><h5> Instrução JL end </h5>
+               <li><h5> Instrução JL end (0E) </h5>
                  ● OpCode: 1110<br> 
                  ● Operando? Sim<br> 
                  ● Operação (RTL): Se(AC<0) PC <- end<br> 
                  ● Comentário: Desvio condicional, caso AC seja menor que zero<br> 
                  ● Tipo: Desvio (transferência de controle)<br>
                </li>
-               <li><h5> Instrução HLT </h5>
+               <li><h5> Instrução HLT (0F) </h5>
                  ● OpCode: 1111<br> 
                  ● Operando? Não<br> 
                  ● Comentário: Término da execução<br> 
