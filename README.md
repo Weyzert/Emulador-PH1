@@ -161,21 +161,21 @@
    </ul>
 <li><h3>Exemplo de saída para a "entrada01.txt"</h3></li>
 <p>
-  Input file: entrada01.txt
+  Input file: entrada01.txt<br>
 
-  LDR 81 ; AC <- MEM[81]
-  ADD 82 ; AC <- AC + MEM[82]
-  STR 80 ; MEM[80] <- AC
-  HLT
+  LDR 81 ; AC <- MEM[81]<br>
+  ADD 82 ; AC <- AC + MEM[82]<br>
+  STR 80 ; MEM[80] <- AC<br>
+  HLT<br>
 
-  4 instructions executed
+  4 instructions executed<br>
 
-  Registers:
-  AC 07
-  PC 07
+  Registers:<br>
+  AC 07<br>
+  PC 07<br>
 
-  Memory:
-  80 07
+  Memory:<br>
+  80 07<br>
 </p>
 
 </ul>
