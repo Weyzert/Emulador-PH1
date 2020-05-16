@@ -159,5 +159,23 @@
            <li>O valor contido naquele endereço ao final da execução, em hexadecimal, com dois dígitos</li>
          </ul>
    </ul>
+<li><h3>Exemplo de saída para a "entrada01.txt"</h3></li>
+<p>
+  Input file: entrada01.txt
+
+  LDR 81 ; AC <- MEM[81]
+  ADD 82 ; AC <- AC + MEM[82]
+  STR 80 ; MEM[80] <- AC
+  HLT
+
+  4 instructions executed
+
+  Registers:
+  AC 07
+  PC 07
+
+  Memory:
+  80 07
+</p>
 
 </ul>
