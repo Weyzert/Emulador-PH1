@@ -131,6 +131,7 @@
                </li>
              </ul>  
 </ul>
+<hr>
 <li><h3>Saída</h3></li>
 <p>A lei de saída do programa contem exatamente os seguintes parametros:</p>
    <ul>
@@ -180,3 +181,4 @@
 </p>
 
 </ul>
+<hr>
