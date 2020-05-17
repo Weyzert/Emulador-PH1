@@ -2,7 +2,7 @@
 <h2> Trabalho de Arquitetura e Organização de Computadores I, ministrada pelo Prof. Me. Marcos Jose Brusso, na Universidade de Passo Fundo - UPF </h2>
 <h5><strong>Nome:</strong> Pedro Marcelo Roso Manica</h5> <h5><strong>Matrícula:</strong> 173722</h5>
 <ul>
-  
+<hr>  
 <li><h3>Entrada</h3></li>
 <p>A entrada é composta por um arquivo-texto(.txt) contendo uma série de linhas. Cada linha correspondente ao conteúdo inicial de um endereço da memória do PH1 e é representada por um endereço e um valor (ambos em hexadecimal) separados por um espaço em branco. Os valores iniciais de todos os endereços de memórias não informados, assim como de todos os registradores serão 00 (zero). O nome do arquivo de entrada não é fixo dentro do programa, mas informado pelo usuário em tempo de execução.</p>
 <ul>
