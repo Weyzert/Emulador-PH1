@@ -17,23 +17,21 @@ limitations under the License.
 #include <iostream>
 #include <iomanip>
 
-///----------------------------------------------------------------------Variaveis
-int Registrador_de_Dados_da_Memoria;      //RDM
-int Registrador_de_Enderecos_da_Memoria;  //REM
-int Memoria_1 [ 256 ];                    //perna1
-int Memoria_2 [ 256 ];                    //perna2
-int Registrador_de_Instrucao;             //RI
-int Contador_de_Programa;                 //PC
-int Acumulador;                           //AC
-///----------------------------------------------------------------------Declara a funcao
-void Unidade_Central_de_Processamento ( void );
+int RDM;
+int REM;
+int Memoria_1 [256];
+int Memoria_2 [256];
+int RI;
+int PC;
+int AC;
 
-int main ( int argc, char** argv ) {
+void CPU (void);
 
+int main (int argc, char** argv) {
     FILE * arquivo;
 	int endereco, dado;
-///----------------------------------------------------------------------Caso os argumentos forem invalidos
-	if ( argc != 2 )
+
+	if (argc != 2)
 	{
 	    std::cerr << "Argumentos invalidos"
 	              << std::endl
@@ -43,292 +41,217 @@ int main ( int argc, char** argv ) {
 	    return 0;
 	}
 
-	arquivo = fopen( argv [ 1 ], "r" );
-///----------------------------------------------------------------------Caso nao for possivel abrir o arquivo
-	if ( arquivo == NULL )
+	arquivo = fopen(argv [1], "r");
+
+	if (arquivo == NULL)
 	{
 		std::cerr << "Falha ao abrir o arquivo"
 		          << std::endl
 		          ;
 		return 0;
 	}
-///----------------------------------------------------------------------Se o arquivo for aberto
-	std::cout << "Input file:" << argv [ 1 ]
+
+	std::cout << std::endl
+	          << "Input file:" << argv [1]
 	          << std::endl
 		      ;
-///----------------------------------------------------------------------Le todo o arquivo
-	while ( !feof ( arquivo ) )
+
+	while (!feof (arquivo))
 	{
 		fscanf(arquivo, "%x %x", &endereco, &dado);
-		Memoria_1 [ endereco ] = dado;
-		Memoria_2 [ endereco ] = dado;
+		Memoria_1 [endereco] = dado;
+		Memoria_2 [endereco] = dado;
 	}
-///----------------------------------------------------------------------Fecha o arquivo
-	fclose ( arquivo );
-///----------------------------------------------------------------------Inicia a funcao responsavel por manipular os dados
-	Unidade_Central_de_Processamento ();
+	fclose (arquivo);
+	CPU ();
 	return 0;
-
 }
 
-void Unidade_Central_de_Processamento ( void ) {
-
+void CPU (void) {
 	int i;
 	int Contador = 0;
-
 	std::cout << std::endl;
-///----------------------------------------------------------------------PC iniciado
-	Contador_de_Programa = 0;
-///----------------------------------------------------------------------Loop infinito ate que o HLT apareca
-	while ( 1 )
+	PC = 0;
+
+	while (true)
 	{
-		Registrador_de_Enderecos_da_Memoria = Contador_de_Programa;
-		Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-		Contador_de_Programa = Contador_de_Programa + 1;
-		Registrador_de_Instrucao = Registrador_de_Dados_da_Memoria;
-///----------------------------------------------------------------------Instrucoes que usam apenas 1 endereco
-		if ( Registrador_de_Instrucao != 0x00 && Registrador_de_Instrucao != 0x70 && Registrador_de_Instrucao != 0xf0 )
-        {
-			Registrador_de_Enderecos_da_Memoria = Contador_de_Programa;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Contador_de_Programa = Contador_de_Programa + 1;
+		REM = PC;
+		RDM = Memoria_1 [REM];
+		PC = PC + 1;
+		RI = RDM;
+
+		if (RI != 0x00 && RI != 0x70 && RI != 0xf0){
+			REM = PC;
+			RDM = Memoria_1 [REM];
+			PC = PC + 1;
 		}
-///----------------------------------------------------------------------Daki em diante compara os valores
-///----------------------------------------------------------------------lidos com a base da funcao e escreve a saida de acordo
-		if ( Registrador_de_Instrucao == 0x00 )
-        {
-			std::cout << "NOP" << ";"
-			          << std::endl
-			          ;
-			Contador = Contador + 1;
+
+		if (RI == 0x00){
+			std::cout << "NOP" << ";" << std::endl;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x10 )
-        {
-			std::cout << "LDR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-			          << std::endl
-			          ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x10){
+			std::cout << "LDR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x20 )
-        {
-			std::cout << "STR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-                      << "MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "] <- AC"
-                      << std::endl
-                      ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Acumulador;
-			Memoria_1 [ Registrador_de_Enderecos_da_Memoria ] = Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x20){
+			std::cout << "STR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+                      << "MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "] <- AC" << std::endl;
+			REM = RDM;
+			RDM = AC;
+			Memoria_1 [REM] = RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x30 )
-        {
-			std::cout << "ADD " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC + MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-			          << std::endl
-			          ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador + Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x30){
+			std::cout << "ADD " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC + MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC + RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x40 )
-        {
-			std::cout << "SUB " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC - MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-                      << std::endl
-                      ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador - Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x40){
+			std::cout << "SUB " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC - MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC - RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x50 )
-        {
-			std::cout << "MUL " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC * MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-			          << std::endl
-			          ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador * Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x50){
+			std::cout << "MUL " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC * MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC * RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x60 )
-        {
-			std::cout << "DIV " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC / MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-			          << std::endl
-			          ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador / Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0x60){
+			std::cout << "DIV " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC / MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC / RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x70 )
-        {
-			std::cout << "NOT" << ";"
-			          << "AC <- !AC"
-			          << std::endl
-                      ;
-			Acumulador = ~ Acumulador;
-			Contador = Contador + 1;
+		if (RI == 0x70){
+			std::cout << "NOT" << ";" << "AC <- !AC" << std::endl;
+			AC = ~ AC;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x80 )
-        {
-			std::cout << "AND " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC & MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-                      << std::endl
-                      ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador & Memoria_1 [ Registrador_de_Dados_da_Memoria ];
-			Contador = Contador + 1;
+		if (RI == 0x80){
+			std::cout << "AND " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC & MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC & Memoria_1 [ RDM ];
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0x90 )
-        {
-			std::cout << "OR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC | MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-                      << std::endl
-                      ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador | Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Contador = Contador + 1;
+		if (RI == 0x90){
+			std::cout << "OR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC | MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC | Memoria_1 [REM];
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0xA0 )
-        {
-			std::cout << "XOR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "AC <- AC ^ MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << "]"
-			          << std::endl
-			          ;
-			Registrador_de_Enderecos_da_Memoria = Registrador_de_Dados_da_Memoria;
-			Registrador_de_Dados_da_Memoria = Memoria_1 [ Registrador_de_Enderecos_da_Memoria ];
-			Acumulador = Acumulador ^ Memoria_1 [ Registrador_de_Dados_da_Memoria ];
-			Contador = Contador + 1;
+		if (RI == 0xA0){
+			std::cout << "XOR " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "AC <- AC ^ MEM[" << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << "]" << std::endl;
+			REM = RDM;
+			RDM = Memoria_1 [REM];
+			AC = AC ^ Memoria_1 [RDM];
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0xB0 )
-        {
-			std::cout << "JMP " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria
-			          << std::endl
-			          ;
-			Contador_de_Programa = Registrador_de_Dados_da_Memoria;
-			Contador = Contador + 1;
+		if (RI == 0xB0){
+			std::cout << "JMP " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << std::endl;
+			PC = RDM;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0xC0 )
-        {
+		if (RI == 0xC0){
 
-			std::cout << "JEQ " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "if (AC==0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria
-			          << std::endl
-                      ;
-
-			if( Acumulador == 0 )
-			{
-				Contador_de_Programa = Registrador_de_Dados_da_Memoria;
+			std::cout << "JEQ " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "if (AC==0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << std::endl;
+			if(AC == 0){
+				PC = RDM;
 			}
-
-			Contador = Contador + 1;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0xD0 )
-        {
-			std::cout << "JG " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "if (AC>0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria
-			          << std::endl
-			          ;
-
-			if( Acumulador > 0 )
-			{
-				Contador_de_Programa = Registrador_de_Dados_da_Memoria;
+		if (RI == 0xD0){
+			std::cout << "JG " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "if (AC>0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << std::endl;
+			if(AC > 0){
+				PC = RDM;
 			}
-
-			Contador = Contador + 1;
+			Contador++;
 			continue;
 		}
 
-		if ( Registrador_de_Instrucao == 0xE0 )
-        {
-			std::cout << "JL " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria << ";"
-			          << "if (AC<0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Registrador_de_Dados_da_Memoria
-			          << std::endl
-			          ;
-
-			if( Acumulador < 0 )
-            {
-				Contador_de_Programa = Registrador_de_Dados_da_Memoria;
+		if (RI == 0xE0){
+			std::cout << "JL " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << ";"
+			          << "if (AC<0) PC <- " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << RDM << std::endl;
+			if(AC < 0){
+				PC = RDM;
 			}
-
-			Contador = Contador + 1;
+			Contador++;
 			continue;
 		}
-///----------------------------------------------------------------------Fim do loop, pois o HLT apareceu
-		if ( Registrador_de_Instrucao == 0xF0 )
-        {
-			std::cout << "HLT" << ";"
-			          << std::endl
-			          ;
-			Contador = Contador + 1;
+		if (RI == 0xF0){
+			std::cout << "HLT" << ";" << std::endl;
+			Contador++;
 			break;
 		}
-
 	}
-///----------------------------------------------------------------------Anteriormente escrevia funcao por funcao
-///----------------------------------------------------------------------agora escreve todo o restante da lei da saida(AC e PC)
+
 	std::cout << std::endl
-              << Contador << " instructions executed" << std::endl
+              << std::dec << Contador << " instructions executed" << std::endl
 	          << std::endl
-	          << "Registers:"
+              << "Registers:"
 	          << std::endl
-	          << "AC: " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Acumulador
+              << "AC: " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << AC
 	          << std::endl
-	          << "PC: " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Contador_de_Programa
+              << "PC: " << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << PC
 	          << std::endl
-	          << std::endl
+              << std::endl
 	          << "Memory:"
-	          << std::endl
-              ;
-///----------------------------------------------------------------------Compara as memorias buscando por enderecos modificados
-///----------------------------------------------------------------------Imprimindo o indice e a memoria
-	for ( i = 128; i < 255; i++)
-    {
-		if ( Memoria_2 [ i ] != Memoria_1 [ i ] )
-		{
+	          << std::endl;
+
+	for (i = 128; i < 255; i++){
+		if (Memoria_2 [i] != Memoria_1 [i]){
 			std::cout << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << i  << " "
-			          << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Memoria_1 [ i ]
-                      << std::endl
-                      ;
+			          << std::uppercase << std::setfill ('0') << std::setw (2) << std::hex << Memoria_1 [i]
+                      << std::endl;
 		}
 	}
-
 }
-
